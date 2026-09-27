@@ -1,0 +1,18 @@
+{
+  "name": "Praxis — kalkulator ryzyka",
+  "short_name": "Praxis",
+  "description": "Kalkulator ryzyka i prawdopodobieństwa powodzenia.",
+  "lang": "pl-PL",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f1e9",
+  "theme_color": "#26735f",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

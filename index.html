@@ -5,21 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Kalkulator ryzyka i prawdopodobieństwa powodzenia oparty na statystyce, niezawodności i symulacji Monte Carlo."
+      content="Darmowy kalkulator ryzyka online. Oszacuj prawdopodobieństwo powodzenia, przedział niepewności i wpływ kluczowych czynników dzięki symulacji Monte Carlo."
     />
-    <title>Praxis — kalkulator ryzyka</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="theme-color" content="#f3f1e9" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Praxis" />
+    <meta property="og:title" content="Kalkulator ryzyka i szans powodzenia — Praxis" />
+    <meta property="og:description" content="Oszacuj ryzyko, szansę sukcesu i zakres niepewności na podstawie 10 000 symulacji Monte Carlo." />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Kalkulator ryzyka i szans powodzenia — Praxis" />
+    <meta name="twitter:description" content="Interaktywny kalkulator prawdopodobieństwa z analizą najważniejszych czynników ryzyka." />
+    <title>Kalkulator ryzyka online i szans powodzenia | Praxis</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="site.webmanifest" />
     <link rel="stylesheet" href="style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Praxis — kalkulator ryzyka",
+        "description": "Internetowy kalkulator ryzyka i prawdopodobieństwa powodzenia wykorzystujący symulację Monte Carlo.",
+        "applicationCategory": "BusinessApplication",
+        "applicationSubCategory": "Risk Management",
+        "operatingSystem": "Dowolny system z przeglądarką internetową",
+        "inLanguage": "pl-PL",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "PLN"
+        },
+        "featureList": [
+          "Symulacja Monte Carlo",
+          "Analiza prawdopodobieństwa sukcesu",
+          "Przedział niepewności",
+          "Analiza wrażliwości czynników"
+        ]
+      }
+    </script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Przejdź do kalkulatora</a>
     <div class="noise" aria-hidden="true"></div>
     <header class="topbar">
-      <a class="brand" href="#" aria-label="Praxis — strona główna">
+      <a class="brand" href="#main-content" aria-label="Praxis — kalkulator ryzyka">
         <span class="brand-mark">P</span>
         <span>PRAXIS</span>
       </a>
@@ -27,11 +58,11 @@
       <button class="ghost-button" id="resetButton" type="button">Wyczyść dane</button>
     </header>
 
-    <main>
+    <main id="main-content">
       <section class="intro">
         <div>
           <p class="eyebrow">DECYZJE · NIE WRÓŻBY</p>
-          <h1>Zmierz ryzyko.<br /><span>Poszerz pole działania.</span></h1>
+          <h1>Kalkulator ryzyka.<br /><span>Oszacuj szansę powodzenia.</span></h1>
         </div>
         <p class="intro-copy">
           Natura nie gwarantuje wyniku — daje rozkłady prawdopodobieństwa.
@@ -59,7 +90,7 @@
             <div class="slider-field">
               <div class="slider-label">
                 <label for="baseRate">Bazowa częstość sukcesu</label>
-                <output id="baseRateValue">50%</output>
+                <output id="baseRateValue" for="baseRate">50%</output>
               </div>
               <p>Jak często podobne próby kończą się powodzeniem?</p>
               <input id="baseRate" type="range" min="1" max="99" value="50" />
@@ -69,7 +100,7 @@
             <div class="slider-field">
               <div class="slider-label">
                 <label for="preparation">Przygotowanie i wiedza</label>
-                <output id="preparationValue">65</output>
+                <output id="preparationValue" for="preparation">65</output>
               </div>
               <p>Dane, umiejętności, testy i jakość planu.</p>
               <input id="preparation" type="range" min="0" max="100" value="65" />
@@ -79,7 +110,7 @@
             <div class="slider-field">
               <div class="slider-label">
                 <label for="resources">Dostępne zasoby</label>
-                <output id="resourcesValue">60</output>
+                <output id="resourcesValue" for="resources">60</output>
               </div>
               <p>Czas, energia, pieniądze i zdolność wykonawcza.</p>
               <input id="resources" type="range" min="0" max="100" value="60" />
@@ -89,7 +120,7 @@
             <div class="slider-field">
               <div class="slider-label">
                 <label for="complexity">Złożoność układu</label>
-                <output id="complexityValue">45</output>
+                <output id="complexityValue" for="complexity">45</output>
               </div>
               <p>Liczba elementów i możliwych punktów awarii.</p>
               <input id="complexity" type="range" min="0" max="100" value="45" />
@@ -99,7 +130,7 @@
             <div class="slider-field">
               <div class="slider-label">
                 <label for="volatility">Zmienność otoczenia</label>
-                <output id="volatilityValue">35</output>
+                <output id="volatilityValue" for="volatility">35</output>
               </div>
               <p>Nieprzewidywalność warunków zewnętrznych.</p>
               <input id="volatility" type="range" min="0" max="100" value="35" />
@@ -200,7 +231,50 @@
           </aside>
         </section>
       </div>
+
+      <section class="seo-content" aria-labelledby="howItWorksTitle">
+        <div class="seo-intro">
+          <p class="step">JAK TO DZIAŁA</p>
+          <h2 id="howItWorksTitle">Kalkulator prawdopodobieństwa oparty na danych</h2>
+          <p>
+            Praxis pomaga porównać scenariusze i nazwać ryzyko przed podjęciem decyzji.
+            Nie przewiduje przyszłości — przelicza jawne założenia na czytelny zakres możliwych wyników.
+          </p>
+        </div>
+        <div class="explain-grid">
+          <article>
+            <span>01</span>
+            <h3>Określ punkt wyjścia</h3>
+            <p>Podaj częstość powodzenia podobnych działań. To bazowe prawdopodobieństwo, od którego model rozpoczyna obliczenia.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Oceń warunki i ryzyko</h3>
+            <p>Przygotowanie i zasoby wzmacniają szanse, natomiast złożoność, zmienność i zawodne zależności je ograniczają.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Porównaj scenariusze</h3>
+            <p>Zmień parametry, aby zobaczyć, które działanie najbardziej poprawia wynik i ogranicza oczekiwaną stratę.</p>
+          </article>
+        </div>
+        <div class="faq-grid">
+          <article>
+            <h3>Czym jest symulacja Monte Carlo?</h3>
+            <p>To metoda wielokrotnego losowania możliwych wyników. Aplikacja wykonuje 10 000 symulacji, dzięki czemu pokazuje nie tylko jedną wartość, lecz także realistyczny przedział niepewności.</p>
+          </article>
+          <article>
+            <h3>Czy wynik jest prognozą?</h3>
+            <p>Nie. Jakość oszacowania zależy od jakości wprowadzonych danych. Kalkulator służy do analizy scenariuszy i nie zastępuje specjalistycznej oceny w medycynie, finansach, inżynierii ani bezpieczeństwie.</p>
+          </article>
+        </div>
+      </section>
     </main>
+
+    <footer>
+      <span>PRAXIS</span>
+      <p>Kalkulator ryzyka i prawdopodobieństwa powodzenia.</p>
+    </footer>
 
     <dialog id="methodDialog">
       <button class="dialog-close" id="closeDialog" aria-label="Zamknij">×</button>
@@ -222,6 +296,7 @@
       </div>
     </dialog>
 
-    <script src="app.js"></script>
+    <noscript>Do wykonywania obliczeń kalkulator wymaga włączonej obsługi JavaScript.</noscript>
+    <script src="app.js" defer></script>
   </body>
 </html>
