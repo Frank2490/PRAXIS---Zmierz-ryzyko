@@ -45,7 +45,7 @@
           "Symulacja Monte Carlo",
           "Analiza prawdopodobieństwa sukcesu",
           "Przedział niepewności",
-          "Analiza wrażliwości czynników"
+          "Kara za złożoność według Brzytwy Ockhama"
         ]
       }
     </script>
@@ -70,113 +70,83 @@
         </div>
         <p class="intro-copy">
           Natura nie gwarantuje wyniku — daje rozkłady prawdopodobieństwa.
-          Ten model łączy bazową częstość, ograniczenia, niezawodność i losowość,
-          aby oszacować szanse bez fałszywej precyzji.
+          Ten model łączy trzy scenariusze finansowe, 10 000 prób Monte Carlo
+          i karę za złożoność, aby oszacować wynik bez fałszywej precyzji.
         </p>
       </section>
 
       <div class="workspace">
-        <section class="panel controls-panel" aria-labelledby="inputsTitle">
+        <form class="panel controls-panel" id="riskForm" aria-labelledby="inputsTitle">
           <div class="panel-heading">
             <div>
               <p class="step">01 / PARAMETRY</p>
-              <h2 id="inputsTitle">Warunki początkowe</h2>
+              <h2 id="inputsTitle">Założenia finansowe</h2>
             </div>
             <button class="info-button" id="methodButton" type="button" aria-label="Jak działa model?">?</button>
           </div>
 
-          <label class="field text-field">
-            <span>Nazwa przedsięwzięcia</span>
-            <input id="projectName" type="text" value="Nowe przedsięwzięcie" maxlength="60" />
-          </label>
-
-          <div class="control-list">
-            <div class="slider-field">
-              <div class="slider-label">
-                <label for="baseRate">Bazowa częstość sukcesu</label>
-                <output id="baseRateValue" for="baseRate">50%</output>
+          <div class="money-fields">
+            <label class="field featured-field">
+              <span>Początkowa inwestycja</span>
+              <div class="unit-input">
+                <input id="investment" name="inwestycja" type="number" min="0" step="any" value="100000" required />
+                <b>PLN</b>
               </div>
-              <p>Jak często podobne próby kończą się powodzeniem?</p>
-              <input id="baseRate" type="range" min="1" max="99" value="50" />
-              <div class="range-labels"><span>rzadko</span><span>często</span></div>
-            </div>
-
-            <div class="slider-field">
-              <div class="slider-label">
-                <label for="preparation">Przygotowanie i wiedza</label>
-                <output id="preparationValue" for="preparation">65</output>
-              </div>
-              <p>Dane, umiejętności, testy i jakość planu.</p>
-              <input id="preparation" type="range" min="0" max="100" value="65" />
-              <div class="range-labels"><span>niskie</span><span>wysokie</span></div>
-            </div>
-
-            <div class="slider-field">
-              <div class="slider-label">
-                <label for="resources">Dostępne zasoby</label>
-                <output id="resourcesValue" for="resources">60</output>
-              </div>
-              <p>Czas, energia, pieniądze i zdolność wykonawcza.</p>
-              <input id="resources" type="range" min="0" max="100" value="60" />
-              <div class="range-labels"><span>napięte</span><span>obfite</span></div>
-            </div>
-
-            <div class="slider-field">
-              <div class="slider-label">
-                <label for="complexity">Złożoność układu</label>
-                <output id="complexityValue" for="complexity">45</output>
-              </div>
-              <p>Liczba elementów i możliwych punktów awarii.</p>
-              <input id="complexity" type="range" min="0" max="100" value="45" />
-              <div class="range-labels"><span>prosty</span><span>złożony</span></div>
-            </div>
-
-            <div class="slider-field">
-              <div class="slider-label">
-                <label for="volatility">Zmienność otoczenia</label>
-                <output id="volatilityValue" for="volatility">35</output>
-              </div>
-              <p>Nieprzewidywalność warunków zewnętrznych.</p>
-              <input id="volatility" type="range" min="0" max="100" value="35" />
-              <div class="range-labels"><span>stabilne</span><span>chaotyczne</span></div>
-            </div>
-          </div>
-
-          <div class="compact-grid">
-            <label class="field">
-              <span>Niezawodność zależności</span>
-              <div class="unit-input"><input id="dependency" type="number" min="1" max="100" value="85" /><b>%</b></div>
+              <small>Kapitał potrzebny do uruchomienia decyzji.</small>
             </label>
-            <label class="field">
-              <span>Liczba niezależnych prób</span>
-              <div class="unit-input"><input id="attempts" type="number" min="1" max="50" value="1" /><b>×</b></div>
-            </label>
-            <label class="field">
-              <span>Dotkliwość porażki</span>
-              <select id="impact">
-                <option value="1">Niska</option>
-                <option value="2" selected>Średnia</option>
-                <option value="3">Wysoka</option>
-                <option value="4">Krytyczna</option>
-              </select>
-            </label>
-            <label class="field">
-              <span>Pewność danych</span>
-              <select id="confidence">
-                <option value="0.5">Niska</option>
-                <option value="0.75" selected>Średnia</option>
-                <option value="1">Wysoka</option>
-              </select>
+
+            <div class="scenario-group" aria-labelledby="scenariosTitle">
+              <div class="group-heading">
+                <strong id="scenariosTitle">Scenariusze przychodu</strong>
+                <span>MIN · MODA · MAX</span>
+              </div>
+              <label class="field scenario-field">
+                <span><i class="scenario-dot pessimistic"></i>Pesymistyczny</span>
+                <div class="unit-input">
+                  <input id="pessimistic" name="pesymistyczny" type="number" step="any" value="70000" required />
+                  <b>PLN</b>
+                </div>
+              </label>
+              <label class="field scenario-field">
+                <span><i class="scenario-dot likely"></i>Prawdopodobny</span>
+                <div class="unit-input">
+                  <input id="likely" name="prawdopodobny" type="number" step="any" value="140000" required />
+                  <b>PLN</b>
+                </div>
+              </label>
+              <label class="field scenario-field">
+                <span><i class="scenario-dot optimistic"></i>Optymistyczny</span>
+                <div class="unit-input">
+                  <input id="optimistic" name="optymistyczny" type="number" step="any" value="240000" required />
+                  <b>PLN</b>
+                </div>
+              </label>
+            </div>
+
+            <label class="field featured-field">
+              <span>Liczba zewnętrznych czynników ryzyka</span>
+              <div class="unit-input">
+                <input id="riskCount" name="liczba_ryzyk" type="number" min="0" step="1" value="3" required />
+                <b>×</b>
+              </div>
+              <small>Każde ryzyko obniża wynik o 5% inwestycji.</small>
             </label>
           </div>
-        </section>
 
-        <section class="results-column" aria-live="polite">
+          <div class="form-error" id="formError" role="alert" hidden></div>
+          <button class="submit-button" id="submitButton" type="submit">
+            <span class="button-label">Uruchom 10 000 symulacji</span>
+            <span class="button-arrow" aria-hidden="true">→</span>
+          </button>
+          <p class="form-note">Obliczenia wykonuje silnik Python + NumPy.</p>
+        </form>
+
+        <section class="results-column" aria-live="polite" aria-busy="false" id="resultsColumn">
           <article class="panel result-card">
             <div class="panel-heading">
               <div>
                 <p class="step">02 / WYNIK SYMULACJI</p>
-                <h2 id="resultProjectName">Nowe przedsięwzięcie</h2>
+                <h2>Analiza decyzji</h2>
               </div>
               <span class="simulation-count">10 000 SYMULACJI</span>
             </div>
@@ -188,42 +158,47 @@
                   <path class="gauge-progress" id="gaugeProgress" d="M 25 120 A 95 95 0 0 1 215 120" pathLength="100" />
                 </svg>
                 <div class="gauge-value">
-                  <strong id="probability">0%</strong>
-                  <span>SZANSA POWODZENIA</span>
+                  <strong id="probability">—</strong>
+                  <span>SZANSA DODATNIEGO WYNIKU</span>
                 </div>
               </div>
               <div class="verdict">
-                <span class="risk-badge" id="riskBadge">—</span>
-                <h3 id="verdictTitle">Obliczanie…</h3>
-                <p id="verdictText"></p>
+                <span class="risk-badge" id="trafficLight">OCZEKIWANIE</span>
+                <h3 id="verdictTitle">Wprowadź założenia</h3>
+                <p id="verdictText">Model oszacuje finansowy wynik decyzji po uwzględnieniu kosztu jej złożoności.</p>
               </div>
             </div>
 
             <div class="metrics">
               <div>
-                <span>Realistyczny przedział</span>
-                <strong id="interval">—</strong>
+                <span>Średni wynik netto</span>
+                <strong id="expectedResult">—</strong>
               </div>
               <div>
-                <span>Ryzyko pojedynczej próby</span>
-                <strong id="singleRisk">—</strong>
+                <span>Bezpieczny dół (P5)</span>
+                <strong id="safeFloor">—</strong>
               </div>
               <div>
-                <span>Oczekiwana strata</span>
-                <strong id="expectedLoss">—</strong>
+                <span>Realny sufit (P95)</span>
+                <strong id="realCeiling">—</strong>
               </div>
             </div>
           </article>
 
-          <article class="panel factors-card">
+          <article class="panel factors-card complexity-card" id="complexityCard">
             <div class="panel-heading compact-heading">
               <div>
-                <p class="step">03 / DŹWIGNIE</p>
-                <h2>Co najbardziej zmienia wynik?</h2>
+                <p class="step">03 / BRZYTWA OCKHAMA</p>
+                <h2 id="ockhamTitle">Ocena prostoty planu</h2>
               </div>
+              <span class="ockham-icon" id="ockhamIcon" aria-hidden="true">∴</span>
             </div>
-            <div class="factor-chart" id="factorChart"></div>
-            <div class="recommendation" id="recommendation"></div>
+            <p class="ockham-copy" id="ockhamText">Każda dodatkowa zależność niesie ukryty koszt wykonania i zwiększa przestrzeń możliwych awarii.</p>
+            <div class="penalty-row">
+              <span>Koszt skomplikowania</span>
+              <strong id="complexityPenalty">—</strong>
+            </div>
+            <div class="penalty-formula" id="penaltyFormula">liczba ryzyk × 5% inwestycji</div>
           </article>
 
           <aside class="principle">
@@ -249,17 +224,17 @@
           <article>
             <span>01</span>
             <h3>Określ punkt wyjścia</h3>
-            <p>Podaj częstość powodzenia podobnych działań. To bazowe prawdopodobieństwo, od którego model rozpoczyna obliczenia.</p>
+            <p>Podaj koszt inwestycji oraz pesymistyczny, najbardziej prawdopodobny i optymistyczny scenariusz przychodu.</p>
           </article>
           <article>
             <span>02</span>
             <h3>Oceń warunki i ryzyko</h3>
-            <p>Przygotowanie i zasoby wzmacniają szanse, natomiast złożoność, zmienność i zawodne zależności je ograniczają.</p>
+            <p>Silnik Python losuje 10 000 przychodów z rozkładu trójkątnego i dla każdej próby oblicza wynik netto.</p>
           </article>
           <article>
             <span>03</span>
             <h3>Porównaj scenariusze</h3>
-            <p>Zmień parametry, aby zobaczyć, które działanie najbardziej poprawia wynik i ogranicza oczekiwaną stratę.</p>
+            <p>Brzytwa Ockhama obniża każdą prognozę o 5% inwestycji za każdy zewnętrzny czynnik ryzyka.</p>
           </article>
         </div>
         <div class="faq-grid">
@@ -285,14 +260,13 @@
       <p class="step">METODOLOGIA</p>
       <h2>Jak liczymy prawdopodobieństwo?</h2>
       <p>
-        Model zaczyna od bazowej częstości podobnych zdarzeń. Następnie koryguje ją w przestrzeni
-        logarytmu szans o przygotowanie, zasoby, złożoność i zmienność. Niezawodne zależności mnożą
-        szansę pojedynczej próby. Wiele niezależnych prób korzysta z reguły
-        <code>1 − (1 − p)ⁿ</code>.
+        Model losuje 10 000 możliwych przychodów z rozkładu trójkątnego opisanego przez scenariusz
+        pesymistyczny, prawdopodobny i optymistyczny. Od każdego wyniku odejmuje inwestycję oraz
+        koszt skomplikowania równy <code>liczba ryzyk × inwestycja × 5%</code>.
       </p>
       <p>
-        Symulacja Monte Carlo dodaje losowe odchylenia proporcjonalne do zmienności i niepewności
-        danych. Pokazywany przedział obejmuje środkowe 80% symulowanych wyników.
+        Prawdopodobieństwo sukcesu to udział prób z dodatnim wynikiem. Percentyl P5 pokazuje ostrożny
+        dół rozkładu, a P95 jego realistyczny sufit. Obliczenia wykonuje Python i biblioteka NumPy.
       </p>
       <div class="dialog-note">
         To narzędzie decyzyjne, nie model konkretnej dziedziny. W medycynie, finansach, inżynierii

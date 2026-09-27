@@ -97,8 +97,32 @@ input[type="range"]::-webkit-slider-thumb { appearance: none; width: 15px; heigh
 .unit-input input { padding: 10px 12px; border-right: 0; }
 .unit-input b { display: grid; place-items: center; min-width: 38px; border: 1px solid var(--line); color: var(--muted); font: 500 12px ui-monospace, "SFMono-Regular", Consolas, monospace; }
 select { padding: 10px 12px; }
+.money-fields { display: grid; gap: 24px; }
+.featured-field small { display: block; margin-top: 8px; color: var(--muted); font-size: 10px; line-height: 1.45; }
+.scenario-group { display: grid; gap: 13px; padding: 21px; border: 1px solid var(--line); background: rgba(244,244,237,.55); }
+.group-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 4px; }
+.group-heading strong { font-size: 12px; }
+.group-heading span { color: var(--muted); font: 500 8px ui-monospace, "SFMono-Regular", Consolas, monospace; letter-spacing: .08em; }
+.scenario-field { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 12px; }
+.scenario-field > span { display: flex; align-items: center; gap: 7px; margin: 0; }
+.scenario-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+.scenario-dot.pessimistic { background: var(--red); }
+.scenario-dot.likely { background: var(--orange); }
+.scenario-dot.optimistic { background: var(--green); }
+.submit-button { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 28px; padding: 15px 18px; border: 0; color: #fff; background: var(--ink); cursor: pointer; font: 700 12px Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; transition: background .2s, transform .2s; }
+.submit-button:hover { background: var(--green); }
+.submit-button:active { transform: translateY(1px); }
+.submit-button:disabled { cursor: wait; opacity: .75; }
+.submit-button.is-loading .button-arrow { animation: pulse 1s infinite alternate; }
+.button-arrow { font-size: 18px; }
+.form-note { margin: 9px 0 0; color: var(--muted); text-align: center; font-size: 9px; }
+.form-error { margin-top: 20px; padding: 12px 14px; border-left: 3px solid var(--red); color: #87372f; background: rgba(188,75,63,.08); font-size: 11px; line-height: 1.5; }
+.form-error[hidden] { display: none; }
+@keyframes pulse { from { transform: translateX(0); } to { transform: translateX(5px); } }
 
 .results-column { display: grid; gap: 22px; }
+.results-column[aria-busy="true"] .result-card,
+.results-column[aria-busy="true"] .complexity-card { opacity: .62; }
 .result-card, .factors-card { padding: 34px; }
 .simulation-count { padding-top: 2px; color: var(--muted); font: 400 9px ui-monospace, "SFMono-Regular", Consolas, monospace; letter-spacing: .12em; }
 .probability-layout { display: grid; grid-template-columns: minmax(280px, .9fr) 1.1fr; align-items: center; gap: 40px; min-height: 250px; }
@@ -130,6 +154,16 @@ select { padding: 10px 12px; }
 .factor-value { text-align: right; font: 500 10px ui-monospace, "SFMono-Regular", Consolas, monospace; }
 .recommendation { margin-top: 25px; padding: 16px 18px; border-left: 3px solid var(--lime); background: rgba(200,230,88,.10); font-size: 12px; line-height: 1.6; }
 .recommendation strong { display: block; margin-bottom: 3px; }
+.complexity-card { transition: opacity .25s, border-color .25s; }
+.complexity-card.is-complex { border-color: rgba(188,75,63,.35); }
+.ockham-icon { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid rgba(38,115,95,.25); border-radius: 50%; color: var(--green); background: rgba(38,115,95,.08); font: 600 16px ui-monospace, "SFMono-Regular", Consolas, monospace; }
+.is-complex .ockham-icon { border-color: rgba(188,75,63,.25); color: var(--red); background: rgba(188,75,63,.08); }
+.ockham-copy { max-width: 680px; margin: -6px 0 25px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.penalty-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.penalty-row span { color: var(--muted); font-size: 10px; }
+.penalty-row strong { color: var(--orange); font: 600 19px ui-monospace, "SFMono-Regular", Consolas, monospace; }
+.is-complex .penalty-row strong { color: var(--red); }
+.penalty-formula { margin-top: 12px; color: var(--muted); text-align: right; font: 400 9px ui-monospace, "SFMono-Regular", Consolas, monospace; }
 .principle { display: flex; gap: 16px; padding: 22px 26px; border: 1px dashed #bdc2b7; color: var(--muted); }
 .principle-icon { color: var(--green); font: 500 23px ui-monospace, "SFMono-Regular", Consolas, monospace; }
 .principle strong { color: var(--ink); font-size: 11px; }
@@ -180,6 +214,7 @@ noscript { display: block; padding: 12px; text-align: center; color: #fff; backg
   h1 span { display: block; }
   .controls-panel, .result-card, .factors-card { padding: 24px 20px; }
   .compact-grid { grid-template-columns: 1fr; }
+  .scenario-field { grid-template-columns: 1fr; gap: 6px; }
   .probability-layout { grid-template-columns: 1fr; gap: 24px; }
   .verdict { padding: 23px 0 0; border-left: 0; border-top: 1px solid var(--line); }
   .metrics { grid-template-columns: 1fr; }

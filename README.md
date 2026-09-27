@@ -1,26 +1,27 @@
 # Praxis — kalkulator ryzyka
 
-Interaktywny kalkulator prawdopodobieństwa powodzenia oparty na:
+Internetowy Symulator Ryzyka Decyzyjnego oparty na:
 
-- częstości bazowej,
-- modelu logarytmu szans,
-- niezawodności zależności,
-- regule wielu niezależnych prób,
-- symulacji Monte Carlo (10 000 przebiegów),
-- analizie wrażliwości czynników.
+- trzech scenariuszach przychodu,
+- rozkładzie trójkątnym,
+- symulacji Monte Carlo (10 000 prób),
+- koszcie początkowej inwestycji,
+- karze za złożoność inspirowanej Brzytwą Ockhama,
+- percentylach P5 i P95 oraz świetle decyzyjnym.
 
-Repozytorium zawiera także konsolowy **Symulator Ryzyka Decyzyjnego** w Pythonie,
-który łączy 10 000 prób Monte Carlo z karą za złożoność inspirowaną Brzytwą Ockhama.
+Interfejs WWW komunikuje się z endpointem `/api/symulacja`, który uruchamia
+silnik Python/NumPy jako funkcję Vercela. Ten sam model jest dostępny w konsoli.
 
 ## Uruchomienie
 
-Otwórz `index.html` w przeglądarce albo uruchom lokalny serwer:
+Zainstaluj zależności i uruchom serwer obsługujący stronę oraz lokalne API:
 
 ```bash
-python3 -m http.server 8000
+python3 -m pip install -r requirements.txt
+python3 serwer_lokalny.py
 ```
 
-Następnie wejdź na `http://localhost:8000`.
+Następnie wejdź na `http://127.0.0.1:8000`.
 
 Możesz też użyć:
 
@@ -59,13 +60,15 @@ print(wynik)
 
 ## Wdrożenie
 
-Projekt jest statyczny i nie wymaga procesu budowania. Katalog główny można wdrożyć bezpośrednio:
+Projekt jest przygotowany do wdrożenia na Vercelu. Pliki interfejsu są statyczne,
+a `api/symulacja.py` jest automatycznie wykrywany jako funkcja Python. Zależności
+funkcji są instalowane z `requirements.txt`.
 
-- GitHub Pages — źródło: gałąź `main`, katalog `/ (root)`,
-- Netlify — publish directory: `.`, bez build command,
-- Vercel — framework preset: `Other`, output directory: `.`.
+## Testy
 
-Plik `.nojekyll` zapewnia bezpośrednie publikowanie zasobów na GitHub Pages.
+```bash
+npm run check
+```
 
 ## Ważne ograniczenie
 

@@ -4,8 +4,8 @@
   "private": true,
   "description": "Interaktywny kalkulator ryzyka i prawdopodobieństwa powodzenia.",
   "scripts": {
-    "start": "python3 -m http.server 8000",
-    "check": "node --check app.js"
+    "start": "python3 serwer_lokalny.py",
+    "check": "node --check app.js && python3 -m unittest discover -s tests"
   },
   "engines": {
     "node": ">=18"
